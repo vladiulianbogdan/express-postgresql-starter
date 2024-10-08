@@ -1,0 +1,32 @@
+backend:
+    functions:
+        - entry: app.js
+          handler: handler
+          name: express-postgresql-starter
+          path: ./
+          type: aws
+    language:
+        name: js
+        packageManager: npm
+    path: ./
+    scripts:
+        deploy: npm install
+        local: npm install
+frontend:
+    environment:
+        VITE_API_URL: ${{ backend.functions.express-postgresql-starter.url }}
+    path: ./frontend
+    publish: ./dist
+    scripts:
+        build:
+            - npm run build
+        deploy: npm install
+    subdomain: indianred-everyone-grasshopper
+name: express-postgresql-starter
+region: us-east-1
+services:
+    databases:
+        - name: express-postgresql-starter
+          region: us-east-1
+          type: postgres-neon
+yamlVersion: 2
